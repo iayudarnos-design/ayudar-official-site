@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+<title>ご注文ありがとうございます | AYUDAR</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;background:#0a0a0a;color:#f5f5f5;min-height:100dvh}
+header{height:72px;padding:0 6%;display:flex;align-items:center;border-bottom:1px solid rgba(255,217,77,.32)}
+header img{height:40px;display:block}
+main{max-width:760px;margin:0 auto;padding:70px 7%;text-align:center}
+.mark{width:76px;height:76px;border:2px solid #ffd94d;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 28px;color:#ffd94d;font-size:36px}
+h1{font-size:clamp(28px,6vw,44px);line-height:1.35;letter-spacing:2px}
+p{color:#d8d8d8;line-height:2.1;margin-top:24px;font-size:14px}
+.status{margin:28px auto 0;border:1px solid rgba(255,217,77,.35);background:#151505;padding:18px;color:#f3e6b3;line-height:1.9;font-size:13px}
+.btn{display:inline-block;margin-top:34px;padding:15px 32px;background:linear-gradient(135deg,#ffe27a,#f7bd2b);color:#111;font-weight:900;letter-spacing:1px;text-decoration:none}
+.sub-btn{display:inline-block;margin-top:14px;padding:13px 28px;border:1px solid #ffd94d;color:#ffd94d;font-weight:700;letter-spacing:1px;text-decoration:none}
+footer{padding:30px;text-align:center;color:#bfa04a;font-size:11px;letter-spacing:1.5px;border-top:1px solid rgba(255,217,77,.25)}
+</style>
+</head>
+<body>
+<header><a href="index.html"><img src="IMG_4768.png" alt="AYUDAR"></a></header>
+<main>
+  <div class="mark">✓</div>
+  <h1>ご注文ありがとうございます</h1>
+  <p>決済が完了しました。AYUDARの商品は受注生産です。注文内容を確認後、Original Print.jpへ生産を依頼し、完成次第お届け先へ発送します。</p>
+  <div class="status" id="statusBox">決済状態を確認しています…</div>
+  <p>領収書はStripeからメールで送信されます。注文内容について連絡が必要な場合は、購入時に入力したメールアドレス宛にご連絡します。</p>
+  <a class="btn" href="shop.html">ショップへ戻る</a><br>
+  <a class="sub-btn" href="https://www.instagram.com/ayudar.gram/" target="_blank" rel="noopener">Instagramを見る</a>
+</main>
+<footer>© AYUDAR. ALL RIGHTS RESERVED.</footer>
+<script>
+(async () => {
+  const box = document.getElementById('statusBox');
+  const sessionId = new URLSearchParams(location.search).get('session_id');
+  if (!sessionId) {
+    box.textContent = '決済情報の確認用IDが見つかりませんでした。領収書メールをご確認ください。';
+    return;
+  }
+  try {
+    const response = await fetch(`/api/create-checkout-session?session_id=${encodeURIComponent(sessionId)}`);
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || '確認できませんでした');
+    if (data.payment_status === 'paid') {
+      box.innerHTML = `決済を確認しました。<br>合計：¥${Number(data.amount_total || 0).toLocaleString('ja-JP')}${data.customer_email ? `<br>送信先：${data.customer_email}` : ''}`;
+      localStorage.removeItem('ayudar_cart_v1');
+    } else {
+      box.textContent = `現在の決済状態：${data.payment_status || data.status || '確認中'}。完了していない場合は領収書メールは送信されません。`;
+    }
+  } catch (error) {
+    box.textContent = '決済状態を自動確認できませんでした。領収書メールが届いていれば注文は完了しています。';
+  }
+})();
+</script>
+</body>
+</html>

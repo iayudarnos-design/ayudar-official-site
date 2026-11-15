@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+<title>SHOP | AYUDAR Official EC</title>
+<meta name="description" content="AYUDAR公式オンラインショップ。受注生産・送料無料。">
+<style>
+:root{--gold:#ffd94d;--gold2:#f7bd2b;--bg:#0a0a0a;--panel:#151515;--line:rgba(255,217,77,.32);--text:#f5f5f5;--muted:#bdbdbd;--danger:#ff7b7b}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--text)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+header{height:72px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(10,10,10,.96);z-index:30;backdrop-filter:blur(10px)}
+.logo img{height:40px;display:block}
+nav{display:flex;align-items:center;gap:22px;font-size:11px;letter-spacing:1.6px}
+nav a:hover{color:var(--gold)}
+.cart-button{background:transparent;color:var(--text);border:1px solid var(--line);padding:10px 14px;letter-spacing:1px}
+.cart-button strong{color:var(--gold)}
+.hero{padding:64px 7% 42px;background:radial-gradient(90% 130% at 50% 0%,#2a2005,#0a0a0a 65%)}
+.eyebrow{font-size:11px;letter-spacing:5px;color:var(--gold);font-weight:700;margin-bottom:14px}
+h1{font-size:clamp(32px,6vw,58px);letter-spacing:3px;line-height:1.1}
+.hero p{margin-top:18px;color:#ddd;line-height:2;font-size:14px;max-width:720px}
+.notice{margin:22px 7% 0;border:1px solid var(--line);background:#171707;padding:14px 16px;color:#f3e6b3;font-size:13px;line-height:1.8}
+main{padding:38px 7% 80px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.card{background:var(--panel);border:1px solid rgba(255,255,255,.08);overflow:hidden;display:flex;flex-direction:column}
+.card-media{background:#fff;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.card-media img{width:100%;height:100%;object-fit:cover;display:block}
+.card-body{padding:18px;display:flex;flex-direction:column;gap:10px;flex:1}
+.card h2{font-size:17px;line-height:1.5;letter-spacing:.5px}
+.price{color:var(--gold);font-weight:700;letter-spacing:.5px}
+.meta{color:var(--muted);font-size:12px;line-height:1.7}
+.card button,.primary-btn{margin-top:auto;background:linear-gradient(135deg,#ffe27a,var(--gold2));border:0;color:#111;padding:13px 16px;font-weight:800;letter-spacing:1px}
+.card button:hover,.primary-btn:hover{filter:brightness(1.05)}
+.detail{margin-top:54px;border:1px solid var(--line);background:#101010;padding:26px;display:none}
+.detail.open{display:block}
+.detail-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,1fr);gap:30px}
+.detail-media{background:#fff;min-height:320px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.detail-media img{width:100%;height:100%;max-height:620px;object-fit:cover;display:block}
+.detail h2{font-size:26px;line-height:1.4;margin-bottom:10px}
+.detail-price{font-size:22px;color:var(--gold);font-weight:800;margin:12px 0 20px}
+.label{font-size:11px;letter-spacing:2px;color:var(--gold);margin:20px 0 9px;font-weight:700}
+.choices{display:flex;flex-wrap:wrap;gap:9px}
+.choice{border:1px solid rgba(255,255,255,.25);background:#1b1b1b;color:var(--text);padding:10px 13px;min-height:42px}
+.choice.selected{border-color:var(--gold);color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
+.qty-row{display:flex;align-items:center;gap:12px;margin:22px 0}
+.qty-control{display:flex;align-items:center;border:1px solid rgba(255,255,255,.25)}
+.qty-control button{width:42px;height:42px;background:#222;color:#fff;border:0;font-size:20px}
+.qty-control span{min-width:42px;text-align:center;font-weight:700}
+.description{white-space:pre-wrap;color:#d6d6d6;font-size:13px;line-height:2;margin-top:24px;border-top:1px solid rgba(255,255,255,.1);padding-top:20px;max-height:360px;overflow:auto}
+.small{font-size:12px;color:var(--muted);line-height:1.8}
+.free-shipping{display:inline-block;border:1px solid var(--gold);color:var(--gold);padding:5px 9px;font-size:11px;letter-spacing:1px;margin-left:8px;vertical-align:middle}
+.drawer-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:50;display:none}
+.drawer-backdrop.open{display:block}
+.drawer{position:fixed;top:0;right:0;width:min(440px,100%);height:100dvh;background:#111;z-index:60;transform:translateX(105%);transition:transform .25s ease;display:flex;flex-direction:column;border-left:1px solid var(--line)}
+.drawer.open{transform:translateX(0)}
+.drawer-head{padding:20px;border-bottom:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;align-items:center}
+.drawer-head h2{font-size:20px;letter-spacing:2px}
+.close-btn{background:transparent;border:0;color:#fff;font-size:28px;line-height:1}
+.cart-items{padding:10px 20px;overflow:auto;flex:1}
+.cart-line{display:grid;grid-template-columns:68px 1fr auto;gap:12px;padding:15px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.cart-line img{width:68px;height:68px;object-fit:cover;background:#fff}
+.cart-line h3{font-size:13px;line-height:1.5;margin-bottom:5px}
+.cart-line p{font-size:12px;color:var(--muted);line-height:1.6}
+.line-actions{display:flex;gap:6px;margin-top:8px}
+.mini-btn{background:#222;color:#fff;border:1px solid rgba(255,255,255,.18);width:28px;height:28px}
+.remove-btn{background:transparent;border:0;color:#aaa;font-size:11px;text-decoration:underline}
+.line-price{font-size:13px;color:var(--gold);font-weight:700;white-space:nowrap}
+.drawer-foot{padding:20px;border-top:1px solid rgba(255,255,255,.12)}
+.total-row{display:flex;justify-content:space-between;margin:8px 0;font-size:14px}
+.total-row.grand{font-size:18px;font-weight:800;color:var(--gold);border-top:1px solid rgba(255,255,255,.12);padding-top:14px;margin-top:14px}
+.checkout-btn{width:100%;margin-top:16px;background:linear-gradient(135deg,#ffe27a,var(--gold2));border:0;color:#111;padding:16px;font-weight:900;letter-spacing:1px}
+.checkout-btn:disabled{opacity:.45;cursor:not-allowed}
+.error{display:none;background:#3b1111;border:1px solid #7c2d2d;color:#ffd7d7;padding:12px 14px;font-size:13px;line-height:1.7;margin-bottom:14px}
+.error.show{display:block}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,120px);background:#f7bd2b;color:#111;padding:13px 18px;font-weight:800;z-index:80;transition:transform .25s;max-width:90%;text-align:center}
+.toast.show{transform:translate(-50%,0)}
+footer{padding:34px 7%;border-top:1px solid var(--line);text-align:center;color:#bfa04a;font-size:11px;letter-spacing:1.5px;line-height:2}
+footer a{text-decoration:underline;text-underline-offset:3px}
+.empty{color:var(--muted);text-align:center;padding:42px 10px;line-height:2}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.detail-grid{grid-template-columns:1fr}}
+@media(max-width:600px){header{padding:0 4%;height:64px}.logo img{height:32px}nav{gap:11px;font-size:10px}.cart-button{padding:9px 10px}.hero{padding:46px 6% 32px}main{padding:28px 5% 64px}.notice{margin:18px 5% 0}.grid{grid-template-columns:1fr;gap:16px}.detail{padding:18px}.detail-media{min-height:260px}.card-body{padding:16px}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="index.html" aria-label="AYUDAR トップへ"><img src="IMG_4768.png" alt="AYUDAR"></a>
+  <nav>
+    <a href="index.html">HOME</a>
+    <a href="https://www.instagram.com/ayudar.gram/" target="_blank" rel="noopener">INSTAGRAM</a>
+    <button class="cart-button" id="openCart" type="button">CART <strong id="cartCount">0</strong></button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">OFFICIAL ONLINE SHOP</div>
+  <h1>AYUDAR SHOP</h1>
+  <p>全商品、受注生産・送料無料。カラー／デザインとサイズを選んでカートへ追加してください。決済はStripeの安全な決済画面で完了します。</p>
+</section>
+
+<div class="notice" id="pageNotice" hidden></div>
+
+<main>
+  <div id="checkoutError" class="error" role="alert"></div>
+  <section class="grid" id="productGrid" aria-label="商品一覧"></section>
+
+  <section class="detail" id="productDetail" aria-live="polite">
+    <div class="detail-grid">
+      <div class="detail-media"><img id="detailImage" alt=""></div>
+      <div>
+        <div class="eyebrow">PRODUCT</div>
+        <h2 id="detailName"></h2>
+        <div><span class="small">受注生産</span><span class="free-shipping">送料無料</span></div>
+        <div class="detail-price" id="detailPrice"></div>
+
+        <div class="label">カラー／デザイン</div>
+        <div class="choices" id="variantChoices"></div>
+
+        <div class="label">サイズ</div>
+        <div class="choices" id="sizeChoices"></div>
+
+        <div class="label">数量</div>
+        <div class="qty-row">
+          <div class="qty-control">
+            <button type="button" id="qtyMinus" aria-label="数量を減らす">−</button>
+            <span id="qtyValue">1</span>
+            <button type="button" id="qtyPlus" aria-label="数量を増やす">＋</button>
+          </div>
+          <span class="small">1回の注文は各商品10点まで</span>
+        </div>
+
+        <button class="primary-btn" id="addToCart" type="button" style="width:100%">カートに入れる</button>
+        <p class="small" style="margin-top:14px">決済画面で配送先・電話番号・メールアドレスを入力します。注文確定後にOriginal Print.jpへ生産を依頼し、完成後に配送します。</p>
+        <div class="description" id="detailDescription"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<aside class="drawer" id="cartDrawer" aria-label="ショッピングカート">
+  <div class="drawer-head">
+    <h2>CART</h2>
+    <button class="close-btn" id="closeCart" type="button" aria-label="カートを閉じる">×</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="drawer-foot">
+    <div class="total-row"><span>小計</span><span id="subtotal">¥0</span></div>
+    <div class="total-row"><span>送料</span><span>無料</span></div>
+    <div class="total-row grand"><span>合計</span><span id="grandTotal">¥0</span></div>
+    <button class="checkout-btn" id="checkoutButton" type="button">Stripeで決済へ進む</button>
+    <p class="small" style="margin-top:12px">テスト運用中は実際の請求は発生しません。本番公開前にテスト購入で動作確認します。</p>
+  </div>
+</aside>
+
+<div class="toast" id="toast" role="status"></div>
+
+<footer>
+  © AYUDAR. ALL RIGHTS RESERVED.<br>
+  <a href="tokushoho.html">特定商取引法に基づく表記</a>
+</footer>
+
+<script src="products.js"></script>
+<script>
+const products = window.AYUDAR_PRODUCTS || [];
+const grid = document.getElementById('productGrid');
+const detail = document.getElementById('productDetail');
+const detailImage = document.getElementById('detailImage');
+const detailName = document.getElementById('detailName');
+const detailPrice = document.getElementById('detailPrice');
+const detailDescription = document.getElementById('detailDescription');
+const variantChoices = document.getElementById('variantChoices');
+const sizeChoices = document.getElementById('sizeChoices');
+const qtyValue = document.getElementById('qtyValue');
+const cartCount = document.getElementById('cartCount');
+const cartItems = document.getElementById('cartItems');
+const subtotalEl = document.getElementById('subtotal');
+const grandTotalEl = document.getElementById('grandTotal');
+const checkoutButton = document.getElementById('checkoutButton');
+const checkoutError = document.getElementById('checkoutError');
+const drawer = document.getElementById('cartDrawer');
+const backdrop = document.getElementById('drawerBackdrop');
+const toast = document.getElementById('toast');
+const pageNotice = document.getElementById('pageNotice');
+const CART_KEY = 'ayudar_cart_v1';
+let selectedProduct = null;
+let selectedVariant = null;
+let selectedSize = null;
+let quantity = 1;
+let cart = loadCart();
+
+function yen(value){ return '¥' + Number(value).toLocaleString('ja-JP'); }
+function findProduct(id){ return products.find(p => p.id === id); }
+function findVariant(product, variantId){ return product?.variants.find(v => v.id === variantId); }
+function priceRange(product){
+  const prices = product.variants.map(v => v.price);
+  const min = Math.min(...prices), max = Math.max(...prices);
+  return min === max ? yen(min) : `${yen(min)} 〜 ${yen(max)}`;
+}
+function loadCart(){
+  try {
+    const parsed = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(item => {
+      const p = findProduct(item.productId);
+      const v = p && findVariant(p, item.variantId);
+      return v && v.sizes.includes(item.size) && Number.isInteger(item.quantity) && item.quantity > 0;
+    }).map(item => ({...item, quantity: Math.min(item.quantity, 10)}));
+  } catch { return []; }
+}
+function saveCart(){ localStorage.setItem(CART_KEY, JSON.stringify(cart)); }
+function cartTotalQuantity(){ return cart.reduce((sum, item) => sum + item.quantity, 0); }
+function cartSubtotal(){
+  return cart.reduce((sum, item) => {
+    const p = findProduct(item.productId);
+    const v = p && findVariant(p, item.variantId);
+    return sum + (v ? v.price * item.quantity : 0);
+  }, 0);
+}
+function showToast(message){
+  toast.textContent = message;
+  toast.classList.add('show');
+  clearTimeout(showToast.timer);
+  showToast.timer = setTimeout(() => toast.classList.remove('show'), 2600);
+}
+function renderProducts(){
+  grid.innerHTML = products.map(product => {
+    const first = product.variants[0];
+    const labels = product.variants.map(v => v.label).join(' / ');
+    return `<article class="card">
+      <div class="card-media"><img src="${first.image}" alt="${product.name} ${first.label}" loading="lazy"></div>
+      <div class="card-body">
+        <h2>${product.name}</h2>
+        <div class="price">${priceRange(product)}</div>
+        <p class="meta">${labels}<br>受注生産 / 送料無料</p>
+        <button type="button" data-product="${product.id}">商品を見る</button>
+      </div>
+    </article>`;
+  }).join('');
+  grid.querySelectorAll('[data-product]').forEach(btn => {
+    btn.addEventListener('click', () => openProduct(btn.dataset.product));
+  });
+}
+function openProduct(productId, variantId, shouldScroll = true){
+  selectedProduct = findProduct(productId);
+  if (!selectedProduct) return;
+  selectedVariant = variantId ? findVariant(selectedProduct, variantId) : selectedProduct.variants[0];
+  selectedSize = selectedVariant.sizes[0];
+  quantity = 1;
+  renderDetail();
+  detail.classList.add('open');
+  if (shouldScroll) detail.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function renderDetail(){
+  if (!selectedProduct || !selectedVariant) return;
+  detailImage.src = selectedVariant.image;
+  detailImage.alt = `${selectedProduct.name} ${selectedVariant.label}`;
+  detailName.textContent = selectedProduct.name;
+  detailPrice.textContent = yen(selectedVariant.price);
+  detailDescription.textContent = selectedVariant.description || '受注生産商品です。サイズ表をご確認のうえご注文ください。';
+  qtyValue.textContent = quantity;
+  variantChoices.innerHTML = selectedProduct.variants.map(variant => `
+    <button type="button" class="choice ${variant.id === selectedVariant.id ? 'selected' : ''}" data-variant="${variant.id}">${variant.label}<br><small>${yen(variant.price)}</small></button>
+  `).join('');
+  variantChoices.querySelectorAll('[data-variant]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      selectedVariant = findVariant(selectedProduct, btn.dataset.variant);
+      if (!selectedVariant.sizes.includes(selectedSize)) selectedSize = selectedVariant.sizes[0];
+      renderDetail();
+    });
+  });
+  sizeChoices.innerHTML = selectedVariant.sizes.map(size => `
+    <button type="button" class="choice ${size === selectedSize ? 'selected' : ''}" data-size="${size}">${size}</button>
+  `).join('');
+  sizeChoices.querySelectorAll('[data-size]').forEach(btn => {
+    btn.addEventListener('click', () => { selectedSize = btn.dataset.size; renderDetail(); });
+  });
+}
+function addSelectedToCart(){
+  if (!selectedProduct || !selectedVariant || !selectedSize) return;
+  const existing = cart.find(item => item.productId === selectedProduct.id && item.variantId === selectedVariant.id && item.size === selectedSize);
+  if (existing) existing.quantity = Math.min(10, existing.quantity + quantity);
+  else cart.push({productId:selectedProduct.id, variantId:selectedVariant.id, size:selectedSize, quantity});
+  saveCart();
+  renderCart();
+  showToast('カートに追加しました');
+  openCart();
+}
+function renderCart(){
+  cartCount.textContent = cartTotalQuantity();
+  if (!cart.length) {
+    cartItems.innerHTML = '<div class="empty">カートは空です。<br>気になる商品を選んでください。</div>';
+  } else {
+    cartItems.innerHTML = cart.map((item, index) => {
+      const product = findProduct(item.productId);
+      const variant = findVariant(product, item.variantId);
+      return `<div class="cart-line">
+        <img src="${variant.image}" alt="${product.name} ${variant.label}">
+        <div>
+          <h3>${product.name}</h3>
+          <p>${variant.label} / サイズ ${item.size}<br>${yen(variant.price)} × ${item.quantity}</p>
+          <div class="line-actions">
+            <button class="mini-btn" type="button" data-dec="${index}" aria-label="数量を減らす">−</button>
+            <button class="mini-btn" type="button" data-inc="${index}" aria-label="数量を増やす">＋</button>
+            <button class="remove-btn" type="button" data-remove="${index}">削除</button>
+          </div>
+        </div>
+        <div class="line-price">${yen(variant.price * item.quantity)}</div>
+      </div>`;
+    }).join('');
+    cartItems.querySelectorAll('[data-dec]').forEach(btn => btn.addEventListener('click', () => changeQty(Number(btn.dataset.dec), -1)));
+    cartItems.querySelectorAll('[data-inc]').forEach(btn => btn.addEventListener('click', () => changeQty(Number(btn.dataset.inc), 1)));
+    cartItems.querySelectorAll('[data-remove]').forEach(btn => btn.addEventListener('click', () => { cart.splice(Number(btn.dataset.remove), 1); saveCart(); renderCart(); }));
+  }
+  const subtotal = cartSubtotal();
+  subtotalEl.textContent = yen(subtotal);
+  grandTotalEl.textContent = yen(subtotal);
+  checkoutButton.disabled = !cart.length;
+}
+function changeQty(index, delta){
+  if (!cart[index]) return;
+  cart[index].quantity += delta;
+  if (cart[index].quantity <= 0) cart.splice(index, 1);
+  if (cart[index] && cart[index].quantity > 10) cart[index].quantity = 10;
+  saveCart();
+  renderCart();
+}
+function openCart(){ drawer.classList.add('open'); backdrop.classList.add('open'); }
+function closeCart(){ drawer.classList.remove('open'); backdrop.classList.remove('open'); }
+async function checkout(){
+  checkoutError.classList.remove('show');
+  checkoutError.textContent = '';
+  checkoutButton.disabled = true;
+  checkoutButton.textContent = '決済画面を作成しています…';
+  try {
+    const response = await fetch('/api/create-checkout-session', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({items: cart})
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || !data.url) throw new Error(data.error || '決済画面を作成できませんでした。');
+    window.location.href = data.url;
+  } catch (error) {
+    checkoutError.textContent = error.message + ' 時間をおいて再度お試しください。';
+    checkoutError.classList.add('show');
+    checkoutButton.disabled = false;
+    checkoutButton.textContent = 'Stripeで決済へ進む';
+  }
+}
+
+document.getElementById('addToCart').addEventListener('click', addSelectedToCart);
+document.getElementById('openCart').addEventListener('click', openCart);
+document.getElementById('closeCart').addEventListener('click', closeCart);
+backdrop.addEventListener('click', closeCart);
+checkoutButton.addEventListener('click', checkout);
+document.getElementById('qtyMinus').addEventListener('click', () => { quantity = Math.max(1, quantity - 1); qtyValue.textContent = quantity; });
+document.getElementById('qtyPlus').addEventListener('click', () => { quantity = Math.min(10, quantity + 1); qtyValue.textContent = quantity; });
+
+const params = new URLSearchParams(location.search);
+if (location.hostname.endsWith('github.io')) {
+  pageNotice.hidden = false;
+  pageNotice.innerHTML = '決済機能はVercel版の公式ECでのみ利用できます。<a href="https://ayudar-ec.vercel.app/shop.html" style="text-decoration:underline">公式ECを開く</a>';
+}
+if (params.get('checkout') === 'cancelled') {
+  pageNotice.hidden = false;
+  pageNotice.textContent = '決済はキャンセルされました。カートの内容は残っています。';
+}
+renderProducts();
+renderCart();
+if (products.length) openProduct(products[0].id, null, false);
+</script>
+</body>
+</html>
