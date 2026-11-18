@@ -39,7 +39,20 @@ main{padding:38px 7% 80px}
 .detail.open{display:block}
 .detail-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,1fr);gap:30px}
 .detail-media{background:#fff;min-height:320px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.detail-media img{width:100%;height:100%;max-height:620px;object-fit:cover;display:block}
+.detail-media img{width:100%;height:100%;max-height:620px;object-fit:cover;display:block;cursor:zoom-in}
+.detail-thumbs{display:flex;gap:10px;margin-top:10px}
+.thumb{border:2px solid rgba(255,255,255,.2);background:#fff;padding:0;width:86px;cursor:pointer}
+.thumb img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.thumb span{display:block;background:#151515;color:var(--muted);font-size:11px;letter-spacing:1px;padding:5px 0;text-align:center}
+.thumb.selected{border-color:var(--gold)}
+.thumb.selected span{color:var(--gold)}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:90;display:none;align-items:center;justify-content:center;flex-direction:column;padding:18px}
+.lightbox.open{display:flex}
+.lightbox img{max-width:100%;max-height:80dvh;object-fit:contain;background:#fff}
+.lb-label{color:var(--gold);letter-spacing:2px;font-size:12px;margin-top:14px;text-align:center}
+.lb-close{position:absolute;top:12px;right:16px;background:transparent;border:0;color:#fff;font-size:36px;line-height:1;cursor:pointer}
+.lb-nav{display:flex;gap:12px;margin-top:14px}
+.lb-nav button{background:#222;color:#fff;border:1px solid rgba(255,255,255,.3);padding:9px 18px;letter-spacing:1px;cursor:pointer}
 .detail h2{font-size:26px;line-height:1.4;margin-bottom:10px}
 .detail-price{font-size:22px;color:var(--gold);font-weight:800;margin:12px 0 20px}
 .label{font-size:11px;letter-spacing:2px;color:var(--gold);margin:20px 0 9px;font-weight:700}
@@ -109,7 +122,11 @@ footer a{text-decoration:underline;text-underline-offset:3px}
 
   <section class="detail" id="productDetail" aria-live="polite">
     <div class="detail-grid">
-      <div class="detail-media"><img id="detailImage" alt=""></div>
+      <div>
+        <div class="detail-media"><img id="detailImage" alt=""></div>
+        <div class="detail-thumbs" id="detailThumbs"></div>
+        <p class="small" style="margin-top:8px">サムネイルで「フロント／バック」を切り替えられます。画像をタップすると拡大して生地やプリントの質感まで確認できます。</p>
+      </div>
       <div>
         <div class="eyebrow">PRODUCT</div>
         <h2 id="detailName"></h2>
@@ -152,9 +169,19 @@ footer a{text-decoration:underline;text-underline-offset:3px}
     <div class="total-row"><span>送料</span><span>無料</span></div>
     <div class="total-row grand"><span>合計</span><span id="grandTotal">¥0</span></div>
     <button class="checkout-btn" id="checkoutButton" type="button">Stripeで決済へ進む</button>
-    <p class="small" style="margin-top:12px">テスト運用中は実際の請求は発生しません。本番公開前にテスト購入で動作確認します。</p>
+    <p class="small" style="margin-top:12px">送料は無料です。決済はStripeの安全な決済画面で完了します。</p>
   </div>
 </aside>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-label="画像拡大表示">
+  <button class="lb-close" id="lbClose" type="button" aria-label="閉じる">×</button>
+  <img id="lbImage" alt="">
+  <div class="lb-label" id="lbLabel"></div>
+  <div class="lb-nav">
+    <button type="button" id="lbPrev">← 前の画像</button>
+    <button type="button" id="lbNext">次の画像 →</button>
+  </div>
+</div>
 
 <div class="toast" id="toast" role="status"></div>
 
@@ -184,6 +211,13 @@ const checkoutError = document.getElementById('checkoutError');
 const drawer = document.getElementById('cartDrawer');
 const backdrop = document.getElementById('drawerBackdrop');
 const toast = document.getElementById('toast');
+const detailThumbs = document.getElementById('detailThumbs');
+const lightbox = document.getElementById('lightbox');
+const lbImage = document.getElementById('lbImage');
+const lbLabel = document.getElementById('lbLabel');
+const lbPrev = document.getElementById('lbPrev');
+const lbNext = document.getElementById('lbNext');
+const lbClose = document.getElementById('lbClose');
 const pageNotice = document.getElementById('pageNotice');
 const CART_KEY = 'ayudar_cart_v1';
 let selectedProduct = null;
@@ -191,6 +225,8 @@ let selectedVariant = null;
 let selectedSize = null;
 let quantity = 1;
 let cart = loadCart();
+let galleryImages = [];
+let galleryIndex = 0;
 
 function yen(value){ return '¥' + Number(value).toLocaleString('ja-JP'); }
 function findProduct(id){ return products.find(p => p.id === id); }
@@ -254,10 +290,47 @@ function openProduct(productId, variantId, shouldScroll = true){
   detail.classList.add('open');
   if (shouldScroll) detail.scrollIntoView({behavior:'smooth', block:'start'});
 }
+function variantImages(variant){
+  return (variant.images && variant.images.length) ? variant.images : [variant.image];
+}
+function imageLabel(index, count){
+  if (count < 2) return '';
+  if (index === 0) return 'フロント';
+  if (index === 1) return 'バック';
+  return `画像${index + 1}`;
+}
+function renderGallery(){
+  detailImage.src = galleryImages[galleryIndex];
+  detailImage.alt = `${selectedProduct.name} ${selectedVariant.label} ${imageLabel(galleryIndex, galleryImages.length)}`.trim();
+  detailThumbs.innerHTML = galleryImages.length > 1 ? galleryImages.map((img, i) => `
+    <button type="button" class="thumb ${i === galleryIndex ? 'selected' : ''}" data-img="${i}" aria-label="${imageLabel(i, galleryImages.length)}を表示">
+      <img src="${img}" alt="${imageLabel(i, galleryImages.length)}" loading="lazy">
+      <span>${imageLabel(i, galleryImages.length)}</span>
+    </button>`).join('') : '';
+  detailThumbs.querySelectorAll('[data-img]').forEach(btn => {
+    btn.addEventListener('click', () => { galleryIndex = Number(btn.dataset.img); renderGallery(); });
+  });
+}
+function renderLightbox(){
+  lbImage.src = galleryImages[galleryIndex];
+  lbImage.alt = detailImage.alt;
+  const label = imageLabel(galleryIndex, galleryImages.length);
+  lbLabel.textContent = `${selectedProduct.name} ${selectedVariant.label}${label ? ' — ' + label : ''}`;
+  const multi = galleryImages.length > 1;
+  lbPrev.style.display = multi ? '' : 'none';
+  lbNext.style.display = multi ? '' : 'none';
+}
+function stepGallery(delta){
+  if (galleryImages.length < 2) return;
+  galleryIndex = (galleryIndex + delta + galleryImages.length) % galleryImages.length;
+  renderGallery();
+  if (lightbox.classList.contains('open')) renderLightbox();
+}
 function renderDetail(){
   if (!selectedProduct || !selectedVariant) return;
-  detailImage.src = selectedVariant.image;
-  detailImage.alt = `${selectedProduct.name} ${selectedVariant.label}`;
+  galleryImages = variantImages(selectedVariant);
+  galleryIndex = 0;
+  renderGallery();
   detailName.textContent = selectedProduct.name;
   detailPrice.textContent = yen(selectedVariant.price);
   detailDescription.textContent = selectedVariant.description || '受注生産商品です。サイズ表をご確認のうえご注文ください。';
@@ -352,6 +425,11 @@ async function checkout(){
   }
 }
 
+detailImage.addEventListener('click', () => { renderLightbox(); lightbox.classList.add('open'); });
+lbClose.addEventListener('click', () => lightbox.classList.remove('open'));
+lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.classList.remove('open'); });
+lbPrev.addEventListener('click', () => stepGallery(-1));
+lbNext.addEventListener('click', () => stepGallery(1));
 document.getElementById('addToCart').addEventListener('click', addSelectedToCart);
 document.getElementById('openCart').addEventListener('click', openCart);
 document.getElementById('closeCart').addEventListener('click', closeCart);
