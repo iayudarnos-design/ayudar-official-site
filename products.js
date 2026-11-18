@@ -384,7 +384,6 @@ const AYUDAR_PRODUCTS = [
         "sizes": [
           "S",
           "M",
-          "L",
           "XL",
           "XXL"
         ],
