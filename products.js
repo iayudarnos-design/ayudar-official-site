@@ -74,10 +74,10 @@ const AYUDAR_PRODUCTS = [
           "L",
           "XL"
         ],
-        "image": "https://baseec-img-mng.akamaized.net/images/item/origin/42d2b69e023f8e6526cd9f09eaf63652.png?imformat=generic&q=90&im=Resize,width=640,type=normal",
+        "image": "images/zip-parka-black-front.jpg",
         "images": [
-          "https://baseec-img-mng.akamaized.net/images/item/origin/42d2b69e023f8e6526cd9f09eaf63652.png?imformat=generic&q=90&im=Resize,width=1280,type=normal",
-          "https://baseec-img-mng.akamaized.net/images/item/origin/b030e2e880393960f52ab4f3550450ef.png?imformat=generic&q=90&im=Resize,width=1280,type=normal"
+          "images/zip-parka-black-front.jpg",
+          "images/zip-parka-black-back.jpg"
         ],
         "description": "【AYUDAR ジップパーカー】 素材：【ポリエステル / コットン】（柔らかく、快適な着用感を実現します） サイズ：【S / M / L / XL】 ※詳しいサイズはサイズ表をご確認ください。 ※商品によって多少の個体差がございます。 【ブラック】 サイズ 身丈 身幅 肩幅 袖丈 S 66 52 47 60 M 69 55 50 61 L 72 58 53 62 XL 75 61 56 63 ※単位：cm",
         "sourceUrl": "https://ayudar01gram.base.shop/items/155947076"
