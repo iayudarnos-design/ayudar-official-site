@@ -147,8 +147,8 @@ const AYUDAR_PRODUCTS = [
   },
   {
     "id": "sweat-pants",
-    "name": "AYUDAR スウェットパンツ",
-    "shortName": "スウェットパンツ",
+    "name": "AYUDAR ライトスウェットパンツ",
+    "shortName": "ライトスウェットパンツ",
     "variants": [
       {
         "id": "155949578",
@@ -165,7 +165,7 @@ const AYUDAR_PRODUCTS = [
           "https://baseec-img-mng.akamaized.net/images/item/origin/f940b1cfefe414780f1e9c7ffac8f938.png?imformat=generic&q=90&im=Resize,width=1280,type=normal",
           "https://baseec-img-mng.akamaized.net/images/item/origin/afbb8083a617e84cf46b28654874b776.png?imformat=generic&q=90&im=Resize,width=1280,type=normal"
         ],
-        "description": "【AYUDAR スウェットパンツ】 素材：【ポリエステル / コットン】（柔らかく、快適な着心地を実現） サイズ：【S / M / L / XL】 ※詳しいサイズはサイズ表をご確認ください。 ※商品によって多少の個体差がございます。 【ホワイト】 サイズ 総丈 股下 ウエスト（ヌード寸法） S 96 73 72〜80 M 100 75 76〜84 L 104 76 79〜87 XL 108 78 82〜90 ※単位：cm",
+        "description": "【AYUDAR ライトスウェットパンツ】 素材：【ポリエステル / コットン】（柔らかく、快適な着心地を実現） サイズ：【S / M / L / XL】 ※詳しいサイズはサイズ表をご確認ください。 ※商品によって多少の個体差がございます。 【ホワイト】 サイズ 総丈 股下 ウエスト（ヌード寸法） S 96 73 72〜80 M 100 75 76〜84 L 104 76 79〜87 XL 108 78 82〜90 ※単位：cm",
         "sourceUrl": "https://ayudar01gram.base.shop/items/155949578"
       },
       {
@@ -183,7 +183,7 @@ const AYUDAR_PRODUCTS = [
           "https://baseec-img-mng.akamaized.net/images/item/origin/0a544ec6cdaea29fdddce1914e09f797.png?imformat=generic&q=90&im=Resize,width=1280,type=normal",
           "https://baseec-img-mng.akamaized.net/images/item/origin/2e977c1010a8ed490746e7fc91cda4cc.png?imformat=generic&q=90&im=Resize,width=1280,type=normal"
         ],
-        "description": "【AYUDAR スウェットパンツ】 素材：【ポリエステル / コットン】（柔らかく、快適な着心地を実現） サイズ：【S / M / L / XL】 ※詳しいサイズはサイズ表をご確認ください。 ※商品によって多少の個体差がございます。 【ブラック】 サイズ 総丈 股下 ウエスト（ヌード寸法） S 96 73 72〜80 M 100 75 76〜84 L 104 76 79〜87 XL 108 78 82〜90 ※単位：cm",
+        "description": "【AYUDAR ライトスウェットパンツ】 素材：【ポリエステル / コットン】（柔らかく、快適な着心地を実現） サイズ：【S / M / L / XL】 ※詳しいサイズはサイズ表をご確認ください。 ※商品によって多少の個体差がございます。 【ブラック】 サイズ 総丈 股下 ウエスト（ヌード寸法） S 96 73 72〜80 M 100 75 76〜84 L 104 76 79〜87 XL 108 78 82〜90 ※単位：cm",
         "sourceUrl": "https://ayudar01gram.base.shop/items/155949832"
       },
       {
@@ -201,7 +201,7 @@ const AYUDAR_PRODUCTS = [
           "https://baseec-img-mng.akamaized.net/images/item/origin/c0b145f7449a2ac46043772d681933ad.png?imformat=generic&q=90&im=Resize,width=1280,type=normal",
           "https://baseec-img-mng.akamaized.net/images/item/origin/44347e44211e77e32481610553c98a21.png?imformat=generic&q=90&im=Resize,width=1280,type=normal"
         ],
-        "description": "【AYUDAR スウェットパンツ】 素材：【ポリエステル / コットン】（柔らかく、快適な着心地を実現） サイズ：【S / M / L / XL】 【チャコールグレー】 サイズ 総丈 股下 ウエスト（ヌード寸法） S 96 73 72〜80 M 100 75 76〜84 L 104 76 79〜87 XL 108 78 82〜90 ※単位：cm",
+        "description": "【AYUDAR ライトスウェットパンツ】 素材：【ポリエステル / コットン】（柔らかく、快適な着心地を実現） サイズ：【S / M / L / XL】 【チャコールグレー】 サイズ 総丈 股下 ウエスト（ヌード寸法） S 96 73 72〜80 M 100 75 76〜84 L 104 76 79〜87 XL 108 78 82〜90 ※単位：cm",
         "sourceUrl": "https://ayudar01gram.base.shop/items/155950953"
       }
     ]
