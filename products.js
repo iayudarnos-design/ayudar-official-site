@@ -630,6 +630,45 @@ const AYUDAR_PRODUCTS = [
         "sourceUrl": "https://ayudar01gram.base.shop/items/155982733"
       }
     ]
+  },
+  {
+    "id": "pull-sweat-pants",
+    "name": "AYUDAR プルスウェットパンツ",
+    "shortName": "プルスウェットパンツ",
+    "variants": [
+      {
+        "id": "166943453",
+        "label": "ブラック",
+        "price": 6900,
+        "sizes": [
+          "M",
+          "L",
+          "XL"
+        ],
+        "image": "https://baseec-img-mng.akamaized.net/images/item/origin/8e3532c0b24c5b669b5584ae0247cce7.png?imformat=generic&q=90&im=Resize,width=640,type=normal",
+        "images": [
+          "https://baseec-img-mng.akamaized.net/images/item/origin/8e3532c0b24c5b669b5584ae0247cce7.png?imformat=generic&q=90&im=Resize,width=1280,type=normal"
+        ],
+        "description": "【AYUDAR プルスウェットパンツ】 素材：【綿 & ポリエステル】 （柔らかな肌触りと高い伸縮性を兼ね備え、快適なフィット感を実現します） サイズ：【 M / L / XL】 【ブラック】 サイズ ウエスト 総丈 股下 M 76-80 101 28 L 80-84 104 29 XL 84-88 107 30 AYUDAR プルスウェットパンツは、リラックスしたい日々にぴったりなアイテムです。柔らかい生地感が体を包み込み、動きやすさを追求したデザインが日常使いに最適です！シンプルなスタイルは、カジュアルなコーディネートにも、ちょっとしたお出かけにも大活躍します。ぜひお気軽にお試しください！",
+        "sourceUrl": "https://ayudar01gram.base.shop/items/166943453"
+      },
+      {
+        "id": "166943922",
+        "label": "グレー",
+        "price": 6900,
+        "sizes": [
+          "M",
+          "L",
+          "XL"
+        ],
+        "image": "https://baseec-img-mng.akamaized.net/images/item/origin/3c72b3534c5d2622d47e70a26f3d4ced.png?imformat=generic&q=90&im=Resize,width=640,type=normal",
+        "images": [
+          "https://baseec-img-mng.akamaized.net/images/item/origin/3c72b3534c5d2622d47e70a26f3d4ced.png?imformat=generic&q=90&im=Resize,width=1280,type=normal"
+        ],
+        "description": "【AYUDAR プルスウェットパンツ】 素材：【綿 & ポリエステル】 （柔らかな肌触りと高い伸縮性を兼ね備え、快適なフィット感を実現します） サイズ：【M / L / XL】 【グレー】 サイズ ウエスト 総丈 股下 M 76-80 101 28 L 80-84 104 29 XL 84-88 107 30 AYUDAR プルスウェットパンツは、リラックスしたい日々に最適なアイテムです。",
+        "sourceUrl": "https://ayudar01gram.base.shop/items/166943922"
+      }
+    ]
   }
 ];
 
