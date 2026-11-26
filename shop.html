@@ -59,6 +59,7 @@ main{padding:38px 7% 80px}
 .choices{display:flex;flex-wrap:wrap;gap:9px}
 .choice{border:1px solid rgba(255,255,255,.25);background:#1b1b1b;color:var(--text);padding:10px 13px;min-height:42px}
 .choice.selected{border-color:var(--gold);color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
+  .choice.soldout{opacity:.45;text-decoration:line-through;cursor:not-allowed}
 .qty-row{display:flex;align-items:center;gap:12px;margin:22px 0}
 .qty-control{display:flex;align-items:center;border:1px solid rgba(255,255,255,.25)}
 .qty-control button{width:42px;height:42px;background:#222;color:#fff;border:0;font-size:20px}
@@ -243,7 +244,7 @@ function loadCart(){
     return parsed.filter(item => {
       const p = findProduct(item.productId);
       const v = p && findVariant(p, item.variantId);
-      return v && v.sizes.includes(item.size) && Number.isInteger(item.quantity) && item.quantity > 0;
+      return v && v.sizes.includes(item.size) && !(v.soldOutSizes || []).includes(item.size) && Number.isInteger(item.quantity) && item.quantity > 0;
     }).map(item => ({...item, quantity: Math.min(item.quantity, 10)}));
   } catch { return []; }
 }
@@ -284,7 +285,7 @@ function openProduct(productId, variantId, shouldScroll = true){
   selectedProduct = findProduct(productId);
   if (!selectedProduct) return;
   selectedVariant = variantId ? findVariant(selectedProduct, variantId) : selectedProduct.variants[0];
-  selectedSize = selectedVariant.sizes[0];
+  selectedSize = selectedVariant.sizes.find(s => !(selectedVariant.soldOutSizes || []).includes(s)) || selectedVariant.sizes[0];
   quantity = 1;
   renderDetail();
   detail.classList.add('open');
@@ -341,19 +342,23 @@ function renderDetail(){
   variantChoices.querySelectorAll('[data-variant]').forEach(btn => {
     btn.addEventListener('click', () => {
       selectedVariant = findVariant(selectedProduct, btn.dataset.variant);
-      if (!selectedVariant.sizes.includes(selectedSize)) selectedSize = selectedVariant.sizes[0];
+      if (!selectedVariant.sizes.includes(selectedSize) || (selectedVariant.soldOutSizes || []).includes(selectedSize)) selectedSize = selectedVariant.sizes.find(s => !(selectedVariant.soldOutSizes || []).includes(s)) || selectedVariant.sizes[0];
       renderDetail();
     });
   });
-  sizeChoices.innerHTML = selectedVariant.sizes.map(size => `
-    <button type="button" class="choice ${size === selectedSize ? 'selected' : ''}" data-size="${size}">${size}</button>
-  `).join('');
+  sizeChoices.innerHTML = selectedVariant.sizes.map(size => {
+    const soldOut = (selectedVariant.soldOutSizes || []).includes(size);
+    return `
+    <button type="button" class="choice ${size === selectedSize ? 'selected' : ''} ${soldOut ? 'soldout' : ''}" data-size="${size}" ${soldOut ? 'disabled' : ''}>${size}</button>
+  `;
+  }).join('');
   sizeChoices.querySelectorAll('[data-size]').forEach(btn => {
     btn.addEventListener('click', () => { selectedSize = btn.dataset.size; renderDetail(); });
   });
 }
 function addSelectedToCart(){
   if (!selectedProduct || !selectedVariant || !selectedSize) return;
+  if ((selectedVariant.soldOutSizes || []).includes(selectedSize)) return;
   const existing = cart.find(item => item.productId === selectedProduct.id && item.variantId === selectedVariant.id && item.size === selectedSize);
   if (existing) existing.quantity = Math.min(10, existing.quantity + quantity);
   else cart.push({productId:selectedProduct.id, variantId:selectedVariant.id, size:selectedSize, quantity});
