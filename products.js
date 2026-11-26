@@ -472,9 +472,13 @@ const AYUDAR_PRODUCTS = [
         "sizes": [
           "S",
           "M",
+          "L",
           "XL",
           "XXL"
         ],
+        "soldOutSizes": [
+          "L"
+      ],
         "image": "https://baseec-img-mng.akamaized.net/images/item/origin/f9a30db53976fa11ebde262f0029a9eb.png?imformat=generic&q=90&im=Resize,width=640,type=normal",
         "images": [
           "https://baseec-img-mng.akamaized.net/images/item/origin/f9a30db53976fa11ebde262f0029a9eb.png?imformat=generic&q=90&im=Resize,width=1280,type=normal",
@@ -519,6 +523,11 @@ const AYUDAR_PRODUCTS = [
           "L",
           "XL"
         ],
+        "soldOutSizes": [
+          "S",
+          "M",
+          "L"
+      ],
         "image": "https://baseec-img-mng.akamaized.net/images/item/origin/77a1e48f87fd21bf469cfde86f26bee7.png?imformat=generic&q=90&im=Resize,width=640,type=normal",
         "images": [
           "https://baseec-img-mng.akamaized.net/images/item/origin/77a1e48f87fd21bf469cfde86f26bee7.png?imformat=generic&q=90&im=Resize,width=1280,type=normal",
@@ -536,7 +545,10 @@ const AYUDAR_PRODUCTS = [
           "M",
           "L",
           "XL"
-        ],
+                  ],
+        "soldOutSizes": [
+          "L"
+      ],
         "image": "https://baseec-img-mng.akamaized.net/images/item/origin/417600234ac6f958e19bc5580e46a28d.png?imformat=generic&q=90&im=Resize,width=640,type=normal",
         "images": [
           "https://baseec-img-mng.akamaized.net/images/item/origin/417600234ac6f958e19bc5580e46a28d.png?imformat=generic&q=90&im=Resize,width=1280,type=normal",
