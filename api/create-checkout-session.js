@@ -92,7 +92,7 @@ function validateItems(items) {
     const size = item?.size;
     const quantity = item?.quantity;
 
-    if (!product || !variant || !variant.sizes.includes(size)) {
+    if (!product || !variant || !variant.sizes.includes(size) || (variant.soldOutSizes || []).includes(size)) {
       const error = new Error('カート内に確認できない商品があります。カートを空にして選び直してください。');
       error.statusCode = 400;
       throw error;
