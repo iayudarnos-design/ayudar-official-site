@@ -67,7 +67,7 @@ const AYUDAR_PRODUCTS = [
       {
         "id": "155947076",
         "label": "ブラック",
-        "price": 9000,
+        "price": 7700,
         "sizes": [
           "S",
           "M",
